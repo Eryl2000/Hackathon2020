@@ -89,4 +89,52 @@ public class Graph
         }
         return count;
     }
+
+
+    public int FarthestLeft()
+    {
+        int ret = -1;
+        float farthestLeft = Mathf.Infinity;
+        for (int i = 0; i < Vertices.Count; ++i)
+        {
+            if (Vertices[i].x < farthestLeft)
+            {
+                farthestLeft = Vertices[i].x;
+                ret = i;
+            }
+        }
+        return ret;
+    }
+
+
+    public int FarthestRight()
+    {
+        int ret = -1;
+        float farthestRight = -Mathf.Infinity;
+        for (int i = 0; i < Vertices.Count; ++i)
+        {
+            if (Vertices[i].x > farthestRight)
+            {
+                farthestRight = Vertices[i].x;
+                ret = i;
+            }
+        }
+        return ret;
+    }
+
+
+    public int FarthestForward()
+    {
+        int ret = -1;
+        float farthestForward = -Mathf.Infinity;
+        for (int i = 0; i < Vertices.Count; ++i)
+        {
+            if (Vertices[i].z > farthestForward)
+            {
+                farthestForward = Vertices[i].z;
+                ret = i;
+            }
+        }
+        return ret;
+    }
 }

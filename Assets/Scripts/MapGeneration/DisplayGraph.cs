@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class DisplayGraph : MonoBehaviour
 {
-    public Vector3 firstNode;
-    public int numberOfPoints;
+    [SerializeField]
+    private HeightMapGenerator heightMapGenerator;
 
 
     private Graph graph;
@@ -13,7 +13,7 @@ public class DisplayGraph : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        graph = CreateGraph.GenerateGraph(firstNode, numberOfPoints);
+        graph = heightMapGenerator.GetGraph();
         for (int i = 0; i < graph.Vertices.Count; ++i)
         {
             GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);

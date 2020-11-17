@@ -8,8 +8,7 @@ public class TileGeneration : MonoBehaviour
     [SerializeField]
     private float heightMultiplier;
 
-    [SerializeField]
-    private HeightMapGenerator heightMapGenerator;
+    public HeightMapGenerator heightMapGenerator;
 
     [SerializeField]
     private TerrainType[] terrainTypes;
@@ -21,7 +20,6 @@ public class TileGeneration : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(transform.position);
         tileRenderer = GetComponent<MeshRenderer>();
         meshFilter = GetComponent<MeshFilter>();
         meshCollider = GetComponent<MeshCollider>();
