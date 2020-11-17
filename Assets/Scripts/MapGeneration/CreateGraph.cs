@@ -7,8 +7,8 @@ public static class CreateGraph
 
     public static Graph GenerateGraph(Vector3 firstNode, int numberOfPoints)
     {
-        float maxDistance = 100.0f;
-        float minDistance = 20.0f;
+        float maxDistance = 1000.0f;
+        float minDistance = 200.0f;
         float angleRange = 45.0f;
         int maxTriesToCreateVertex = 20;
 

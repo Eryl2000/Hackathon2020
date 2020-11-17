@@ -13,13 +13,16 @@ public class CreateTiles : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        float extraMargin = 1.5f;
+        float tileSpawnThreshold = 35.0f;
+
         Graph graph = heightMapGenerator.GetGraph();
         Vector3 farthestLeft = graph.Vertices[graph.FarthestLeft()];
         Vector3 farthestRight = graph.Vertices[graph.FarthestRight()];
         Vector3 root = graph.Vertices[0];
         Vector3 farthestForward = graph.Vertices[graph.FarthestForward()];
 
-        float extraMargin = 1.5f;
+
         int width = (int)(extraMargin * (farthestRight.x - farthestLeft.x) / 10.0f);
         int height = (int)(extraMargin * (farthestForward.z - root.z) / 10.0f);
 
@@ -32,9 +35,13 @@ public class CreateTiles : MonoBehaviour
             {
                 float xCoord = centerHorizontal + (i - 0.5f * width) * 10.0f;
                 float zCoord = centerVertical + (j - 0.5f * height) * 10.0f;
-                GameObject tile = Instantiate(TileBlueprint, new Vector3(xCoord, 0, zCoord), Quaternion.identity);
-                tile.transform.parent = transform;
-                tile.GetComponent<TileGeneration>().heightMapGenerator = heightMapGenerator;
+                Vector3 position = new Vector3(xCoord, 0, zCoord);
+                if (heightMapGenerator.ClosestDistanceToEdge(position) <= tileSpawnThreshold)
+                {
+                    GameObject tile = Instantiate(TileBlueprint, position, Quaternion.identity);
+                    tile.transform.parent = transform;
+                    tile.GetComponent<TileGeneration>().heightMapGenerator = heightMapGenerator;
+                }
             }
         }
 

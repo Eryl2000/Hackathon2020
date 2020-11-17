@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50240538e876f264b9526a24f11b6d2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heightMultiplier: 6
+  heightMultiplier: 25
   heightMapGenerator: {fileID: 0}
   terrainTypes:
   - name: bottom
@@ -117,10 +117,10 @@ MonoBehaviour:
     color: {r: 0.6392157, g: 0.20392159, b: 0.027450982, a: 1}
   - name: floor
     height: 0.09
-    color: {r: 0.8313726, g: 0.5686275, b: 0.427451, a: 1}
-  - name: lowerWall
-    height: 0.1
     color: {r: 0.82745105, g: 0.4431373, b: 0.23529413, a: 1}
+  - name: lowerWall
+    height: 0.2
+    color: {r: 0.8313726, g: 0.5686275, b: 0.427451, a: 1}
   - name: wall
     height: 0.5
     color: {r: 0.827451, g: 0.44313726, b: 0.23529412, a: 1}

@@ -16,9 +16,52 @@ public class HeightMapGenerator : MonoBehaviour
 
     public float getHeight(Vector3 position)
     {
-        float distanceThrehold = 5.0f;
+        //float distanceThrehold = 15.0f;
 
-        float minHeight = 1;
+        float height = 0;
+
+        float noiseScale1 = 0.01f;
+        float octave1 = 1.0f;
+        height += noiseScale1 * (Mathf.PerlinNoise(octave1 * position.x, octave1 * position.z) - 0.5f);
+
+        float noiseScale2 = 0.1f;
+        float octave2 = 0.1f;
+        height += noiseScale2 * (Mathf.PerlinNoise(octave2 * position.x, octave2 * position.z) - 0.5f);
+
+        float noiseScale3 = 0.3f;
+        float octave3 = 0.05f;
+        height += noiseScale3 * (Mathf.PerlinNoise(octave3 * position.x, octave3 * position.z) - 0.5f);
+
+        float noiseScale4 = 0.8f;
+        float octave4 = 0.01f;
+        height += noiseScale4 * (Mathf.PerlinNoise(octave4 * position.x, octave4 * position.z) - 0.5f);
+
+        float distanceThrehold = Mathf.Lerp(15, 25, height / (noiseScale1 + noiseScale2 + noiseScale3 + noiseScale4) + 0.3f);
+
+        float dist = ClosestDistanceToEdge(position);
+        if (dist <= distanceThrehold)
+        {
+            height += (dist / distanceThrehold) * (dist / distanceThrehold);
+        }
+        else
+        {
+            height += 1.0f;
+        }
+
+        height = Mathf.Clamp(height, 0, 1);
+        return height;
+    }
+
+
+    public Graph GetGraph()
+    {
+        return graph;
+    }
+
+
+    public float ClosestDistanceToEdge(Vector3 point)
+    {
+        float minDist = Mathf.Infinity;
         for (int i = 0; i < graph.Vertices.Count; ++i)
         {
             for (int j = 0; j < i; ++j)
@@ -28,26 +71,14 @@ public class HeightMapGenerator : MonoBehaviour
                     continue;
                 }
 
-                float dist = DistanceToEdge(position, graph.Vertices[i], graph.Vertices[j]);
-                if (dist < distanceThrehold)
+                float dist = DistanceToEdge(point, graph.Vertices[i], graph.Vertices[j]);
+                if (dist < minDist)
                 {
-                    float height = (dist / distanceThrehold) * (dist / distanceThrehold);
-                    if (height < minHeight)
-                    {
-                        minHeight = height;
-                    }
+                    minDist = dist;
                 }
             }
         }
-        return minHeight;
-        //return DistanceToEdge(position, graph.Vertices[0], graph.Vertices[1]);
-        //return Mathf.Sin(0.05f * (position.x * position.x + position.z * position.z));
-    }
-
-
-    public Graph GetGraph()
-    {
-        return graph;
+        return minDist;
     }
 
 
