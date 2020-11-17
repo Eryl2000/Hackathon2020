@@ -18,25 +18,31 @@ public class HeightMapGenerator : MonoBehaviour
     {
         //float distanceThrehold = 15.0f;
 
+        float posX = position.x + 1000.0f;
+        float posZ = position.z - 1000.0f;
         float height = 0;
 
-        float noiseScale1 = 0.01f;
+        float noiseScale1 = 0.07f;
         float octave1 = 1.0f;
-        height += noiseScale1 * (Mathf.PerlinNoise(octave1 * position.x, octave1 * position.z) - 0.5f);
+        height += noiseScale1 * (Mathf.PerlinNoise(octave1 * posX, octave1 * posZ) - 0.5f);
 
         float noiseScale2 = 0.1f;
         float octave2 = 0.1f;
-        height += noiseScale2 * (Mathf.PerlinNoise(octave2 * position.x, octave2 * position.z) - 0.5f);
+        height += noiseScale2 * (Mathf.PerlinNoise(octave2 * posX, octave2 * posZ) - 0.5f);
 
         float noiseScale3 = 0.3f;
         float octave3 = 0.05f;
-        height += noiseScale3 * (Mathf.PerlinNoise(octave3 * position.x, octave3 * position.z) - 0.5f);
+        height += noiseScale3 * (Mathf.PerlinNoise(octave3 * posX, octave3 * posZ) - 0.5f);
 
         float noiseScale4 = 0.8f;
         float octave4 = 0.01f;
-        height += noiseScale4 * (Mathf.PerlinNoise(octave4 * position.x, octave4 * position.z) - 0.5f);
+        height += noiseScale4 * (Mathf.PerlinNoise(octave4 * posX, octave4 * posZ) - 0.5f);
 
-        float distanceThrehold = Mathf.Lerp(15, 25, height / (noiseScale1 + noiseScale2 + noiseScale3 + noiseScale4) + 0.3f);
+        height /= noiseScale1 + noiseScale2 + noiseScale3 + noiseScale4;
+
+        float distanceThrehold = Mathf.Lerp(15, 25, Mathf.PerlinNoise(octave2 * posX, octave2 * posZ));
+
+        height *= 0.5f;
 
         float dist = ClosestDistanceToEdge(position);
         if (dist <= distanceThrehold)
